@@ -28,4 +28,14 @@ if(playerInput == '1'){
         playerMove = 'nożyce';
 }
 
-printMessage('Twój ruch to: ' + playerMove);
+printMessage('Twój ruch to: ' + playerMove);1
+
+if(playerMove == 'nieznany ruch'){
+    printMessage('Wykonałeś niedozwolony ruch. Wybierz wartość 1, 2 lub 3.');
+}   else if(playerMove == computerMove){
+        printMessage('Remis');
+}   else if((computerMove == 'kamień' && playerMove == 'papier') || (computerMove == 'papier' && playerMove == 'nożyce') || (computerMove == 'nożyce' && playerMove == 'kamień')){
+        printMessage('Ty wygrywasz!');
+}   else{
+        printMessage('Wygrywa komputer. A Twoja dusza idzie do piekła ;)');
+}
