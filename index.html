@@ -3,16 +3,57 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Kamień, papier, nożyce</title>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-	<div class="container">
+	<div class="container" id="main-container">
+		<h1>Kamień - papier - nożyce</h1>
+		<button type="button" id="startNewGame">Zacznij nową grę</button>
+		<div id="result">0 : 0</div>
 		<div id="buttons">
-			<button id="playRock">Kamień</button>
-			<button id="playPaper">Papier</button>
-			<button id="playScissors">Nożyce</button>
+			<button type="button" id="playRock">Kamień</button>
+			<button type="button" id="playPaper">Papier</button>
+			<button type="button" id="playScissors">Nożyce</button>
 		</div>
 		<div id="messages"></div>
+		<div id="arena">
+			<div id="playerArena">
+				<h2>Ty</h2>
+				<i id="playerIcon" class="fa-solid player-icon"></i>
+			</div>
+			<div id="computerArena">
+				<h2>Komputer</h2>
+				<i id="computerIcon" class="fa-solid computer-icon"></i>
+			</div>
+		</div>
+		<button type="button" id="settingButton">Ustawienia</button>
+		<div class="settings">
+			<i class="fa-solid fa-x icon"></i>
+			<div>
+				<label for="quantity">Do ilu gramy? </label>
+  				<input type="number" id="quantity" name="quantity" min="1" max="20" maxlength="4">
+			</div>
+			<div>
+				<input type="radio" id="fairPlay" name="gameMode" value="1" checked>
+				<label for="fairPlay">Uczciwa gra</label><br>
+				<input type="radio" id="cheatingPlay" name="gameMode" value="2">
+				<label for="cheatingPlay">przewaga gracza 75%</label><br>
+			</div>
+			<div>
+				<label for="simulation">Wykonaj symulację. Ilość gier:  </label>
+  				<input type="number" id="simulation" min="1" max="10000" maxlength="4">
+			</div>
+		</div>
+	</div>
+	<div class="shadow-1"></div>
+	<div class="shadow-2">
+		<div class="endGame">
+			<h1>KONIEC GRY!!</h1>
+			<h3 id="winner">Zwycięzca -  </h3>
+		</div>
 	</div>
 	<script src="js/functions.js"></script>
 	<script src="js/script.js"></script>
