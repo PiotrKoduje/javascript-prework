@@ -1,20 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Kamień, papier, nożyce</title>
-	<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-	<div class="container">
-		<div id="buttons">
-			<button type="button" id="playRock">Kamień</button>
-			<button type="button" id="playPaper">Papier</button>
-			<button type="button" id="playScissors">Nożyce</button>
-		</div>
-		<div id="messages"></div>
-	</div>
-	<script src="js/functions.js"></script>
-	<script src="js/script.js"></script>
-</body>
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kamień, papier, nożyce</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Kamień - papier - nożyce</h1>
+      <h3 class="startGame">Zagraj</h3>
+
+      <div class="containerToHide">
+        <div class="scoreboard">
+          <div class="playerField">
+            <p class="playerDescription">Ty:</p>
+            <p class="playerScore">0</p>
+            <p class="playerPercentage">0%</p>
+          </div>
+          <div class="computerField">
+            <p class="computerDescription">Komputer:</p>
+            <div class="computerScore">0</div>
+            <p class="computerPercentage">0%</p>
+          </div>
+        </div>
+
+        <div class="score">
+          <div class="messages"></div>
+          <div class="buttons">
+            <div class="playRock choice">
+              <img src="img/rock.png" alt="Kamień" />
+            </div>
+            <div class="playPaper choice">
+              <img src="img/paper.png" alt="Papier" />
+            </div>
+            <div class="playScissors choice">
+              <img src="img/scissors.png" alt="Nożyce" />
+            </div>
+            <div class="buttonsOverlay"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bodyOverlay">
+      <p class="playAgain">Zagraj ponownie</p>
+    </div>
+    <script src="js/functions.js"></script>
+    <script src="js/script.js"></script>
+  </body>
 </html>
