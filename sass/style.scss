@@ -21,6 +21,7 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: 400px;
+  position: relative;
 }
 
 .containerToHide {
@@ -132,15 +133,8 @@ h1 {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-.visible {
-  display: flex;
-}
-
-.hidden {
-  display: none;
-}
-
 .playAgain {
+  display: none;
   text-align: center;
   font-size: 1.5rem;
   font-weight: bold;
@@ -165,4 +159,93 @@ h1 {
   inset: 0;
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 1;
+}
+
+.settings-button {
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  top: 110px;
+  right: 120px;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1) rotate(15deg);
+  }
+}
+
+.x-button {
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+}
+
+.settingsWindow {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 550px;
+  height: 420px;
+  background-color: #8841a0;
+  border: 15px solid #3b0e49c2;
+  border-radius: 7px;
+  z-index: 2;
+}
+
+.visible {
+  display: flex;
+}
+
+.hidden {
+  display: none;
+}
+
+.targetScoreField {
+  border: 1px solid #3b0e49c2;
+  padding: 20px;
+}
+
+.targetScoreDescrption {
+  padding-bottom: 10px;
+}
+
+.setBiasField {
+  border: 1px solid green;
+}
+
+.setBiasTestField {
+  border: 1px solid blue;
+}
+
+//stepper
+.stepper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.minusButton,
+.plusButton {
+  border: 1px solid #3b0e49c2;
+  border-radius: 7px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 }

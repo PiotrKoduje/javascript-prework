@@ -9,6 +9,9 @@
     <div class="container">
       <h1>Kamień - papier - nożyce</h1>
       <h3 class="startGame">Zagraj</h3>
+      <button class="settings-button" type="button">
+        <img src="img/settings.svg" alt="settings" />
+      </button>
 
       <div class="containerToHide">
         <div class="scoreboard">
@@ -41,10 +44,28 @@
         </div>
       </div>
     </div>
+    <div class="settingsWindow">
+      <button class="x-button" type="button">
+        <img src="img/x.svg" alt="close settings window" />
+      </button>
+      <div class="targetScoreField">
+        <p class="targetScoreDescrption">Punkty potrzebne do wygranej</p>
+        <div class="stepper">
+          <div class="minusButton">−</div>
+          <div class="stepperValue">5</div>
+          <div class="plusButton">+</div>
+        </div>
+      </div>
+      <div class="setBiasField hidden">
+        <p class="setBiasDescription">Ustaw przewagę</p>
+      </div>
+      <div class="setBiasTestField hidden">
+        <p class="setBiasTestDescription">Wykonaj test</p>
+      </div>
+    </div>
     <div class="bodyOverlay">
       <p class="playAgain">Zagraj ponownie</p>
     </div>
-    <script src="js/functions.js"></script>
     <script src="js/script.js"></script>
   </body>
 </html>
