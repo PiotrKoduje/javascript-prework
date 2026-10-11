@@ -45,6 +45,7 @@
       </div>
     </div>
     <div class="settingsWindow">
+      <h2 class="settingsDescription">Ustawienia</h2>
       <button class="x-button" type="button">
         <img src="img/x.svg" alt="close settings window" />
       </button>
@@ -56,8 +57,23 @@
           <div class="plusButton">+</div>
         </div>
       </div>
-      <div class="setBiasField hidden">
-        <p class="setBiasDescription">Ustaw przewagę</p>
+      <div class="setBiasField">
+        <p class="setBiasDescription">Zmień szanse %</p>
+        <div class="slider">
+          <div class="playerSliderValue">50</div>
+          <input
+            type="range"
+            class="sliderInput"
+            min="0"
+            max="100"
+            value="50"
+          />
+          <div class="computerSliderValue">50</div>
+        </div>
+        <div class="players">
+          <p class="firstPlayer">Ty</p>
+          <p class="secondPlayer">Komputer</p>
+        </div>
       </div>
       <div class="setBiasTestField hidden">
         <p class="setBiasTestDescription">Wykonaj test</p>

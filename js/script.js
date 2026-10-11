@@ -1,25 +1,32 @@
-//Variables
+//VARIABLES
 let targetScore = 5;
 let playerScores = 0;
 let computerScores = 0;
-const bodyOverlay = document.getElementsByClassName("bodyOverlay")[0];
-const startGame = document.getElementsByClassName("startGame")[0];
-const containerToHide = document.getElementsByClassName("containerToHide")[0];
-const playAgain = document.getElementsByClassName("playAgain")[0];
-const playRock = document.getElementsByClassName("playRock")[0];
-const playPaper = document.getElementsByClassName("playPaper")[0];
-const playScissors = document.getElementsByClassName("playScissors")[0];
-const messages = document.getElementsByClassName("messages")[0];
-const playerScore = document.getElementsByClassName("playerScore")[0];
-const computerScore = document.getElementsByClassName("computerScore")[0];
-const settingsButton = document.getElementsByClassName("settings-button")[0];
-const xButton = document.getElementsByClassName("x-button")[0];
-const settingsWindow = document.getElementsByClassName("settingsWindow")[0];
-const plusButton = document.getElementsByClassName("plusButton")[0];
-const minusButton = document.getElementsByClassName("minusButton")[0];
-const stepperValue = document.getElementsByClassName("stepperValue")[0];
 
-//Functions
+const bodyOverlay = document.querySelector(".bodyOverlay");
+const startGame = document.querySelector(".startGame");
+const containerToHide = document.querySelector(".containerToHide");
+const playAgain = document.querySelector(".playAgain");
+const playRock = document.querySelector(".playRock");
+const playPaper = document.querySelector(".playPaper");
+const playScissors = document.querySelector(".playScissors");
+const messages = document.querySelector(".messages");
+const playerScore = document.querySelector(".playerScore");
+const computerScore = document.querySelector(".computerScore");
+//settings
+const settingsButton = document.querySelector(".settings-button");
+const xButton = document.querySelector(".x-button");
+const settingsWindow = document.querySelector(".settingsWindow");
+//stepper
+const plusButton = document.querySelector(".plusButton");
+const minusButton = document.querySelector(".minusButton");
+const stepperValue = document.querySelector(".stepperValue");
+//slider
+const sliderInput = document.querySelector(".sliderInput");
+const playerSliderValue = document.querySelector(".playerSliderValue");
+const computerSliderValue = document.querySelector(".computerSliderValue");
+
+//FUNCTIONS
 const getMoveName = (argMoveId) => {
   if (argMoveId == 1) {
     return "kamień";
@@ -68,8 +75,8 @@ const playGame = (playerInput) => {
   clearMessages();
   const playerMove = getMoveName(playerInput);
   printMessage("Twój ruch to: " + playerMove, "move");
-  const randomNumber = Math.floor(Math.random() * 3 + 1);
-  const computerMove = getMoveName(randomNumber);
+  const computerInput = chooseComputerInput(playerInput);
+  const computerMove = getMoveName(computerInput);
   printMessage("Komputera ruch to:  " + computerMove, "move");
   const result = displayResult(computerMove, playerMove);
   setScores(result);
@@ -101,7 +108,77 @@ const resetGame = () => {
   clearMessages();
 };
 
-//Listeners
+const getChance = () => {
+  return Number(playerSliderValue.textContent);
+};
+
+const getTickets = (chance) => {
+  return 66 * chance;
+};
+
+const chooseComputerInput = (playerInput) => {
+  const randomTicket = Math.floor(Math.random() * 9901);
+  const chance = getChance();
+  let computerInput;
+
+  const drawingTickets = 3300;
+  const winningTickets = getTickets(chance);
+  const lostingTickets = 6600 - winningTickets;
+
+  if (playerInput === 1) {
+    // remis
+    if (randomTicket <= drawingTickets) {
+      computerInput = 1;
+      //wygrana gracza
+    } else if (randomTicket <= drawingTickets + winningTickets) {
+      computerInput = 3;
+      //wygrana komputera
+    } else {
+      computerInput = 2;
+    }
+  } else if (playerInput === 2) {
+    //remis
+    if (randomTicket <= drawingTickets) {
+      computerInput = 2;
+      //wygrana gracza
+    } else if (randomTicket <= drawingTickets + winningTickets) {
+      computerInput = 1;
+      //wygrana komputera
+    } else {
+      computerInput = 3;
+    }
+  } else if (playerInput === 3) {
+    //remis
+    if (randomTicket <= drawingTickets) {
+      computerInput = 3;
+      //wygrana gracza
+    } else if (randomTicket <= drawingTickets + winningTickets) {
+      computerInput = 2;
+      //wygrana komputera
+    } else {
+      computerInput = 1;
+    }
+  }
+
+  // console.log(
+  //   "Gracz: " +
+  //     playerInput +
+  //     " .Komputera: " +
+  //     computerInput +
+  //     " .RandomTicket: " +
+  //     randomTicket +
+  //     " .Chance = " +
+  //     chance,
+  // );
+  // console.log(
+  //   "Remis: 0 - 3300" +
+  //     " .Gracz wygrywa dla randomTicket: 3301 - " +
+  //     (drawingTickets + winningTickets),
+  // );
+  return computerInput;
+};
+
+//LISTENERS
 playRock.addEventListener("click", () => {
   playGame(1);
 });
@@ -134,6 +211,7 @@ xButton.addEventListener("click", () => {
   bodyOverlay.classList.remove("visible");
 });
 
+//stepper
 plusButton.addEventListener("click", () => {
   if (targetScore > 19) return;
   stepperValue.textContent = Number(stepperValue.textContent) + 1;
@@ -144,4 +222,10 @@ minusButton.addEventListener("click", () => {
   if (targetScore < 2) return;
   stepperValue.textContent = Number(stepperValue.textContent) - 1;
   targetScore--;
+});
+
+sliderInput.addEventListener("input", () => {
+  target = Number(sliderInput.value);
+  playerSliderValue.textContent = target;
+  computerSliderValue.textContent = 100 - target;
 });
