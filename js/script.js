@@ -2,19 +2,24 @@
 let targetScore = 5;
 let playerScores = 0;
 let computerScores = 0;
+let test = false;
+let settingsLocked = false;
 
 const bodyOverlay = document.querySelector(".bodyOverlay");
 const startGame = document.querySelector(".startGame");
 const containerToHide = document.querySelector(".containerToHide");
 const playAgain = document.querySelector(".playAgain");
+//choices
 const playRock = document.querySelector(".playRock");
 const playPaper = document.querySelector(".playPaper");
 const playScissors = document.querySelector(".playScissors");
+
 const messages = document.querySelector(".messages");
 const playerScore = document.querySelector(".playerScore");
 const computerScore = document.querySelector(".computerScore");
 //settings
 const settingsButton = document.querySelector(".settings-button");
+const resetButton = document.querySelector(".reset-button");
 const xButton = document.querySelector(".x-button");
 const settingsWindow = document.querySelector(".settingsWindow");
 //stepper
@@ -25,6 +30,12 @@ const stepperValue = document.querySelector(".stepperValue");
 const sliderInput = document.querySelector(".sliderInput");
 const playerSliderValue = document.querySelector(".playerSliderValue");
 const computerSliderValue = document.querySelector(".computerSliderValue");
+const setBiasTestField = document.querySelector(".setBiasTestField");
+const buttonsOverlay = document.querySelector(".buttonsOverlay");
+const choices = document.querySelectorAll(".choice");
+//percentage
+const playerPercentage = document.querySelector(".playerPercentage");
+const computerPercentage = document.querySelector(".computerPercentage");
 
 //FUNCTIONS
 const getMoveName = (argMoveId) => {
@@ -47,39 +58,74 @@ const setScores = (result) => {
   playerScore.innerHTML = playerScores;
   computerScore.innerHTML = computerScores;
 
-  if (playerScores === targetScore) {
+  if (playerScores + computerScores != 0) {
+    playerPercentage.innerHTML = `${(
+      (100 * playerScores) /
+      (playerScores + computerScores)
+    ).toFixed(1)}%`;
+    computerPercentage.innerHTML = `${(
+      (100 * computerScores) /
+      (playerScores + computerScores)
+    ).toFixed(1)}%`;
+  }
+
+  if (playerScores >= targetScore) {
     endGame("Gracz");
-  } else if (computerScores === targetScore) {
+  } else if (computerScores >= targetScore) {
     endGame("Komputer");
   }
 };
 
 const displayResult = (argComputerMove, argPlayerMove) => {
   if (argPlayerMove == argComputerMove) {
-    printMessage("Remis", "result");
+    if (!test) printMessage("Remis", "result");
     return "draw";
   } else if (
     (argComputerMove == "kamień" && argPlayerMove == "papier") ||
     (argComputerMove == "papier" && argPlayerMove == "nożyce") ||
     (argComputerMove == "nożyce" && argPlayerMove == "kamień")
   ) {
-    printMessage("Ty wygrywasz!", "result");
+    if (!test) printMessage("Ty wygrywasz!", "result");
     return "player";
   } else {
-    printMessage("Wygrywa komputer", "result");
+    if (!test) printMessage("Wygrywa komputer", "result");
     return "computer";
   }
 };
 
-const playGame = (playerInput) => {
-  clearMessages();
+const playGame = (playerInput, iterationNumber) => {
+  if (!test) clearMessages();
   const playerMove = getMoveName(playerInput);
-  printMessage("Twój ruch to: " + playerMove, "move");
+  if (!test) printMessage("Twój ruch to: " + playerMove, "move");
   const computerInput = chooseComputerInput(playerInput);
   const computerMove = getMoveName(computerInput);
-  printMessage("Komputera ruch to:  " + computerMove, "move");
+  if (!test) printMessage("Komputera ruch to:  " + computerMove, "move");
+
   const result = displayResult(computerMove, playerMove);
+  if (test) {
+    printMessage(
+      iterationNumber +
+        1 +
+        ". " +
+        playerMove +
+        " ----- " +
+        computerMove +
+        " --- " +
+        prepareToPrint(result),
+      "test",
+    );
+  }
   setScores(result);
+};
+
+const prepareToPrint = (result) => {
+  if (result === "player") {
+    return "Wygrywasz Ty";
+  } else if (result === "computer") {
+    return "Wygrywa komputer";
+  } else {
+    return "Jest remis";
+  }
 };
 
 const printMessage = (msg, className) => {
@@ -103,8 +149,14 @@ const endGame = (winner) => {
 const resetGame = () => {
   playerScores = 0;
   computerScores = 0;
-  setScores("reset");
+  playerPercentage.textContent = "0%";
+  computerPercentage.textContent = "0%";
+  targetScore = Number(stepperValue.textContent);
+  test = false;
+  setScores(0);
   bodyOverlay.classList.remove("visible");
+  buttonsOverlay.classList.remove("visible");
+  settingsButton.classList.remove("hidden");
   clearMessages();
 };
 
@@ -178,6 +230,23 @@ const chooseComputerInput = (playerInput) => {
   return computerInput;
 };
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const runTest = async (n) => {
+  settingsLocked = true;
+  for (let i = 0; i < n; i++) {
+    const playerInput = Math.floor(Math.random() * 3 + 1);
+    playGame(playerInput, i);
+    if (i % 2 == 0) {
+      choices[playerInput - 1].classList.add("choiceBlink");
+    } else {
+      choices[playerInput - 1].classList.remove("choiceBlink");
+    }
+
+    await sleep(10);
+  }
+};
+
 //LISTENERS
 playRock.addEventListener("click", () => {
   playGame(1);
@@ -202,6 +271,7 @@ startGame.addEventListener("click", () => {
 });
 
 settingsButton.addEventListener("click", () => {
+  if (settingsLocked) return;
   settingsWindow.classList.add("visible");
   bodyOverlay.classList.add("visible");
 });
@@ -228,4 +298,35 @@ sliderInput.addEventListener("input", () => {
   target = Number(sliderInput.value);
   playerSliderValue.textContent = target;
   computerSliderValue.textContent = 100 - target;
+});
+
+resetButton.addEventListener("click", () => {
+  resetButton.classList.add("hidden");
+  resetGame();
+});
+
+setBiasTestField.addEventListener("click", () => {
+  test = true;
+  targetScore = 5001;
+  buttonsOverlay.classList.add("visible");
+  settingsWindow.classList.remove("visible");
+  bodyOverlay.classList.remove("visible");
+  containerToHide.classList.add("visible");
+  startGame.classList.add("hidden");
+
+  setTimeout(() => {
+    settingsButton.classList.remove("spin");
+  }, 13000);
+
+  settingsButton.classList.add("spin");
+
+  runTest(1000).then(() => {
+    choices.forEach((c) => {
+      c.classList.remove("choiceBlink");
+    });
+
+    settingsLocked = false;
+    settingsButton.classList.add("hidden");
+    resetButton.classList.remove("hidden");
+  });
 });
